@@ -20,7 +20,7 @@
   - build-essential
   - libssl-dev
   - libyaml-dev
-  - git
+  - git-core
   - libtool
   - libxslt1-dev
   - libxml2-dev
@@ -47,9 +47,6 @@
 
 # Install Ruby.
 - include: rbenv.yml
-
-# NewRelic
-#- include: newrelic.yml
 
 - name: set timezone to UTC
   lineinfile: dest=/etc/timezone state=present insertbefore=BOF
