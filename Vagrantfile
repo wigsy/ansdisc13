@@ -27,32 +27,32 @@ Vagrant.configure("2") do |config|
     end
     
     # Host Information
-	web_config.vm.hostname = "web"
+    web_config.vm.hostname = "web"
 
-	# Networking
+    # Networking
     web_config.vm.network :forwarded_port, guest: 80, host: 8080
-	web_config.vm.network "private_network", ip: "192.168.254.254"
+    web_config.vm.network "private_network", ip: "192.168.254.254"
 
-	# =-=-==-
+    # =-=-==-
     # Provision the box with the builtin vagrant-ansible plugin
-	# http://docs.vagrantup.com/v2/provisioning/ansible.html
-	# Also, ansible needs to be on your local.
-	# For Brew installs, this helps:
-	# brew install python
-	# brew install pyyaml
-	# brew install jinja2
-	# brew install https://raw.github.com/mnot/homebrew-stuff/master/ansible.rb
+    # http://docs.vagrantup.com/v2/provisioning/ansible.html
+    # Also, ansible needs to be on your local.
+    # For Brew installs, this helps:
+    # brew install python
+    # brew install pyyaml
+    # brew install jinja2
+    # brew install https://raw.github.com/mnot/homebrew-stuff/master/ansible.rb
     web_config.vm.provision :ansible do |ansible|
       # What playbook shall we provision the box with?
-	  ansible.playbook = 'site.yml'
+      ansible.playbook = 'site.yml'
 
-	  # Where can ansible inventory file be located?
+      # Where can ansible inventory file be located?
       ansible.inventory_path = 'hosts'
 
-	  # Do we want extra verbosity from Ansible?
+      # Do we want extra verbosity from Ansible?
       # Note that this doesn't enable "live" output from Ansible :(
       ansible.verbose = 'vvv'
-	end
+    end
 
   end
 
