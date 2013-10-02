@@ -2,11 +2,6 @@
 # Note: This config requires Vagrant 1.1 or higher.
 # http://downloads.vagrantup.com
 
-$ansible_ppa = <<ANSIBLE
-apt-add-repository http://ppa.launchpad.net/rquillo/ansible/ubuntu
-apt-get install ansible
-ANSIBLE
-
 Vagrant.configure("2") do |config|
   config.vm.box = "mediacore-precise64"
   config.vm.box_url = "https://s3.amazonaws.com/mediacore-public/boxes/ec2-precise64.box"
