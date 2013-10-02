@@ -1,7 +1,7 @@
 Run the playbook:
 ----------------
 
-`ansible-playbook -i vagrant site.yml`
+`vagrant up`
 
 Notes
 -----
