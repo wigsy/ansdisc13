@@ -1,0 +1,35 @@
+---
+- name: postgres | install packages
+  apt: pkg=$item state=present
+  with_items:
+  - pgdg-keyring
+  - postgresql-9.2
+  - postgresql-contrib-9.2
+  - python-psycopg2
+
+- name: postgres | change postgres user password
+  user: name=postgres password={{postgres_user_password}}
+
+- name: postgres | copy pg_hba.conf
+  copy: src=pg_hba.conf dest=/etc/postgresql/9.2/main/pg_hba.conf
+  register: pg_hba
+
+- name: postgres | restarting
+  service: name=postgresql state=restarted
+  when: pg_hba.changed
+
+- name: Create backups directory structure
+  file: path=$item state=directory owner=postgres
+  with_items:
+  - /home/discourse/pg_backups
+  - /home/discourse/pg_backups/daily
+  - /home/discourse/pg_backups/hourly
+
+- cron: name="daily pg backup"
+        hour=2 minute=50 user="postgres"
+        job='pg_dumpall | gzip > /home/discourse/pg_backups/daily/$(date "+\%Y_\%m_\%d-\%H_\%M_\%S.sql.gz")'
+
+- cron: name="hourly pg backup"
+        minute=20 user="postgres"
+        job='pg_dumpall | gzip > /home/discourse/pg_backups/hourly/$(date "+\%Y_\%m_\%d-\%H_\%M_\%S.sql.gz")'
+
